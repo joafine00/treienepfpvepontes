@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Treine PvP e Parkour</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e1e, #2b2b2b);
+      color: #fff;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      animation: slideIn 1s ease;
+    }
+    .sidebar h2 { text-align: center; margin-bottom: 10px; }
+    .sidebar button {
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .sidebar button:hover {
+      background: rgba(255,255,255,0.25);
+      transform: scale(1.05);
+    }
+
+    /* Main Content */
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      animation: fadeIn 1.2s ease;
+    }
+
+    section { display: none; animation: fadeIn 0.7s ease; }
+    section.active { display: block; }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: pop 0.6s ease;
+    }
+
+    canvas {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .faq-box {
+      background: rgba(255,255,255,0.12);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+
+    select, button.support-btn {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    .answer {
+      margin-top: 15px;
+      font-size: 17px;
+      background: rgba(255,255,255,0.1);
+      padding: 12px;
+      border-radius: 10px;
+    }
+
+    @keyframes fadeIn { from { opacity:0;} to {opacity:1;} }
+    @keyframes slideIn { from { transform: translateX(-50px); opacity:0;} to {transform:translateX(0); opacity:1;} }
+    @keyframes pop { from { transform: scale(0.95); opacity:0;} to {transform:scale(1); opacity:1;} }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>📌 Menu</h2>
+    <button onclick="showSection('inicio')">🏠 Início</button>
+    <button onclick="showSection('treinos')">⚔️ Treinos</button>
+    <button onclick="showSection('servidores')">🌍 Servidores</button>
+    <button onclick="showSection('analytics')">📊 Analytics</button>
+    <button onclick="showSection('extras')">✨ Extras</button>
+    <button onclick="showSection('suporte')">🆘 Suporte</button>
+    <button onclick="showSection('contato')">📞 Contato</button>
+  </div>
+
+  <div class="content">
+
+    <!-- INÍCIO -->
+    <section id="inicio" class="active">
+      <div class="card"><h1>Treinamento de PvP e Parkour 🎮</h1><p>Treinos otimizados, grátis e completos para você evoluir no Minecraft!</p></div>
+      <div class="card"><p>🔥 Treinos personalizados<br>⚔️ PvP • 🧗 Parkour • 🎯 Duels<br>🌍 Servidores internacionais<br>🎧 Calls com suporte ao vivo</p></div>
+    </section>
+
+    <!-- TREINOS -->
+    <section id="treinos">
+      <div class="card">
+        <h2>⚔️ Detalhes do Treino</h2>
+        <p>📞 Call de 1 hora no Discord</p>
+        <p>⏱️ Mínimo: 30 minutos</p>
+        <p>💰 Preço: 100% grátis</p>
+        <p>🎯 As aulas incluem:<br>• Técnicas de PvP<br>• Movimentos avançados<br>• Mecânicas de parkour<br>• Análise do seu estilo de jogo</p>
+      </div>
+    </section>
+
+    <!-- SERVIDORES -->
+    <section id="servidores">
+      <div class="card">
+        <h2>🌍 Servidores de Treino</h2>
+        <ul>
+          <li>🇪🇸 UniversoCraft (Espanha) — PvP e Parkour</li>
+          <li>🇺🇸 Hypixel (EUA) — Duels, PvP, Movement</li>
+        </ul>
+        <p>✨ Ambos possuem excelente estrutura para treino focado!</p>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="analytics">
+      <div class="card">
+        <h2>📊 Tempo de Treino</h2>
+        <canvas id="chart1"></canvas>
+      </div>
+
+      <div class="card">
+        <h2>📈 Evolução Prevista</h2>
+        <canvas id="chart2"></canvas>
+      </div>
+
+      <div class="card">
+        <h2>💥 Estimativa de Performance</h2>
+        <canvas id="chart3"></canvas>
+      </div>
+    </section>
+
+    <!-- EXTRAS -->
+    <section id="extras">
+      <div class="card">
+        <h2>✨ Extras e Benefícios</h2>
+        <ul>
+          <li>🏆 Metas semanais personalizadas</li>
+          <li>💬 Revisão de gameplay com dicas</li>
+          <li>⚙️ Configurações recomendadas de PvP</li>
+          <li>🎨 Packs recomendados e shaders</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SUPORTE -->
+    <section id="suporte">
+      <div class="card">
+        <h2>🆘 Suporte Automático</h2>
+        <p>Escolha uma pergunta abaixo:</p>
+        
+        <select id="faqSelect">
+          <option value="0">Selecione uma pergunta...</option>
+          <option value="1">Como entro na call?</option>
+          <option value="2">Quais servidores são usados?</option>
+          <option value="3">Quanto tempo dura o treino?</option>
+          <option value="4">O treino é totalmente grátis?</option>
+        </select>
+
+        <button class="support-btn" onclick="responderFAQ()">📩 Responder</button>
+
+        <div id="faqResposta" class="answer" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato">
+      <div class="card">
+        <h2>📞 Contato & Redes</h2>
+        <p><strong>Discord:</strong> <a href="https://dsc.gg/universocraft-portugues" target="_blank">Entrar</a></p>
+        <p><strong>WhatsApp:</strong> <a href="https://chat.whatsapp.com/GQjxz5s3r1b8SakxMaCYrQ" target="_blank">Grupo</a></p>
+        <p>📧 Email para suporte: joafine_support@proton.me</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- JS -->
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function responderFAQ() {
+      const select = document.getElementById("faqSelect").value;
+      const box = document.getElementById("faqResposta");
+      box.style.display = "block";
+
+      let resposta = "";
+      if (select == 1) resposta = "🎧 Basta entrar no nosso Discord e aguardar o horário marcado!";
+      if (select == 2) resposta = "🌍 Usamos UniversoCraft (ES) e Hypixel (EUA) para treinar!";
+      if (select == 3) resposta = "⏱️ O treino dura entre 30 minutos e 1 hora.";
+      if (select == 4) resposta = "💰 Sim! O treino é 100% gratuito!";
+
+      box.innerHTML = resposta;
+    }
+
+    // Charts
+    new Chart(document.getElementById('chart1'), {
+      type: 'bar',
+      data: { labels: ['30 min', '60 min'], datasets: [{ data: [30, 60], borderWidth: 2 }] },
+      options: { animation: { duration: 1500 } }
+    });
+
+    new Chart(document.getElementById('chart2'), {
+      type: 'line',
+      data: { labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'], datasets: [{ data: [20, 40, 65, 80], borderWidth: 2 }] },
+      options: { animation: { duration: 1500 } }
+    });
+
+    new Chart(document.getElementById('chart3'), {
+      type: 'radar',
+      data: { labels: ['PvP', 'Combo', 'Reflexo', 'Movimento'], datasets: [{ data: [70, 60, 65, 80], borderWidth: 2 }] },
+      options: { animation: { duration: 1500 } }
+    });
+  </script>
+
+</body>
+</html>
